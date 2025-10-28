@@ -1,0 +1,35 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-yaml
+      - id: mixed-line-ending
+
+  - repo: local
+    hooks:
+      - id: go-fmt
+        name: go fmt (format + simplify)
+        entry: bash -c 'gofmt -s -w . && git add -A'
+        language: system
+        types: [go]
+        pass_filenames: false
+
+      - id: go-vet
+        name: go vet (static analysis)
+        entry: bash -c 'go vet ./...'
+        language: system
+        pass_filenames: false
+
+      - id: go-test
+        name: go test (compile + tests)
+        entry: bash -c 'go test ./...'
+        language: system
+        pass_filenames: false
+
+      - id: staticcheck
+        name: staticcheck (lint fort)
+        entry: bash -c '$(go env GOPATH)/bin/staticcheck ./...'
+        language: system
+        pass_filenames: false
